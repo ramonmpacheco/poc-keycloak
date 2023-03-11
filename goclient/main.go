@@ -48,9 +48,23 @@ func main() {
 			http.Error(w, "change token failed", http.StatusInternalServerError)
 			return
 		}
+		// with this idToken the authentication process is done in apps
+		idToken, ok := token.Extra("id_token").(string)
+		if !ok {
+			http.Error(w, "generate token id failed", http.StatusInternalServerError)
+			return
+		}
+		userInfo, err := provider.UserInfo(ctx, oauth2.StaticTokenSource(token))
+		if err != nil {
+			http.Error(w, "get userInfo failed", http.StatusInternalServerError)
+			return
+		}
 		resp := struct {
 			AccessToken *oauth2.Token
-		}{token}
+			IDToken     string
+			UserInfo    *oidc.UserInfo
+		}{token, idToken, userInfo}
+
 		data, err := json.Marshal(resp)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
