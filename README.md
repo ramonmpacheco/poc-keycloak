@@ -15,3 +15,9 @@ https://www.keycloak.org/getting-started/getting-started-docker
 > Para ver as informações do token: [jwt.io](https://jwt.io/)
 >
 > Endpoints disponíveis no realm: http://localhost:8080/realms/myrealm/.well-known/openid-configuration
+
+> Para encontrar os arquivos de tema:
+> 
+> ```docker exec -it keycloak bash```
+> 
+> Ler o arquivo README.md no caminho: ```/opt/keycloak/themes```
